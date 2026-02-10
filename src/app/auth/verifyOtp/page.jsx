@@ -125,12 +125,15 @@
 
 "use client";
 import React, { useState, useEffect } from "react";
-import { ArrowLeftIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeftIcon } from "lucide-react";
+import "../../../../lib/i18n";
 import { useTranslation } from "react-i18next";
 import OTPInput from "../../components/otp/OTPInput";
 
 export default function VerifyOtp() {
+  const router = useRouter();
   const { t } = useTranslation();
   const [otp, setOtp] = useState(Array(6).fill(""));
   const [timer, setTimer] = useState(59);
@@ -145,35 +148,35 @@ export default function VerifyOtp() {
   }, [timer]);
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  const code = otp.join("");
-  const mobile = localStorage.getItem("mobile");
+    e.preventDefault();
+    const code = otp.join("");
+    const mobile = localStorage.getItem("mobile");
 
-  if (code.length < 6 || otp.includes("")) {
-    alert("Please enter complete OTP");
-    return;
-  }
+    if (code.length < 6 || otp.includes("")) {
+      alert("Please enter complete OTP");
+      return;
+    }
 
-  try {
-    const res = await fetch("http://localhost:8080/api/verify-otp", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mobile, otp: code }),
-    });
+    try {
+      const res = await fetch("http://localhost:8080/api/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobile, otp: code }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (!res.ok) throw new Error(data.message);
+      if (!res.ok) throw new Error(data.message);
 
-    // ✅ Save JWT token
-    localStorage.setItem("token", data.token);
-    alert("OTP verified and JWT stored!");
-    router.push("/dashboard");
-  } catch (err) {
-    alert("Invalid OTP");
-    console.error(err);
-  }
-};
+      // ✅ Save JWT token
+      localStorage.setItem("token", data.token);
+      alert("OTP verified and JWT stored!");
+      router.push("/dashboard");
+    } catch (err) {
+      alert("Invalid OTP");
+      console.error(err);
+    }
+  };
 
 
   const handleResend = () => {

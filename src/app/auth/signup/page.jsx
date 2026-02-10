@@ -186,7 +186,7 @@ import "react-phone-input-2/lib/style.css";
 
 export default function SignUp() {
   const [mobile, setMobile] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); 
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const router = useRouter();

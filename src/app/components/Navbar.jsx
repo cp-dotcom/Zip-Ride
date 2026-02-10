@@ -664,7 +664,7 @@ export default function Navbar() {
           </div>
         ) : (
           <Link
-            href="/signup"
+            href="/auth/signup"
             className="bg-yellow-400 text-black font-semibold px-5 py-1.5 rounded-full hover:bg-yellow-500 hover:scale-105 hover:shadow-[0_0_8px_rgba(250,204,21,0.6)] transition-all duration-300"
           >
             {t("navbar.login")}
